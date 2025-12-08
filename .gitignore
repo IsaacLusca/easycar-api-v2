@@ -1,6 +1,6 @@
 .venv/
 venv/
-
+easyCarProject/
 db.sqlite3
 
 __pycache__/
