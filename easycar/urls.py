@@ -3,11 +3,13 @@ from django.urls import path, include
 from rest_framework import routers
 
 from users.views import PerfilClienteViewSet
+from users.views import UserViewSet
 from cars.views import CarroViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'carros', CarroViewSet, basename='carro')
+router.register(r'users', UserViewSet, basename='user')
 router.register(r'clientes', PerfilClienteViewSet, basename='cliente')
 
 urlpatterns = [
