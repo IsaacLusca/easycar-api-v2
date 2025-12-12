@@ -8,6 +8,9 @@ django.setup()
 from django.contrib.auth.models import User
 from users.serializers import UserSerializer
 
+# remove 
+User.objects.filter(username='aranha').delete()
+
 # cria
 usuario = User.objects.create_user(username='aranha', password='senha123', is_active=True)
 

@@ -36,13 +36,23 @@ class UserSerializer(serializers.ModelSerializer):
             is_staff=False,
             is_superuser=False
         )
-        
 
         # adiciona automaticamente ao grupo "Clientes"
         grupo_cliente = Group.objects.get(name="Clientes")
         cliente.groups.add(grupo_cliente)
         cliente.save()
         return cliente
+    
+    def update(self, instance, validated_data):
+     # atualiza a senha somente se foi fornecida
+        nova_senha = validated_data.get('senha', None)
+        if nova_senha:
+            instance.set_password(nova_senha)
+        # chama o update da api para atualizar os outros campos normalmente
+        return super().update(instance, validated_data)       
+      
+    
+
 #--------------------------------------------------------------------
 class PerfilClienteSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
