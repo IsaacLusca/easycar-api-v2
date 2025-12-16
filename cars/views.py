@@ -16,14 +16,14 @@ class CarroViewSet(viewsets.ModelViewSet):
     lookup_field = 'placa'
     
     # Rota: /api/carros/disponiveis/
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get'],permission_classes=[IsAuthenticated])
     def disponiveis(self, request):
         carros = self.queryset.filter(status='disponivel')
         serializer = self.get_serializer(carros, many=True)
         return Response(serializer.data)
 
     # Rota: /api/carros/alugados/
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get'],permission_classes=[IsAuthenticated])
     def alugados(self, request):
         carros = self.queryset.filter(status='alugado')
         serializer = self.get_serializer(carros, many=True)
