@@ -16,6 +16,7 @@ router.register(r'clientes', PerfilClienteViewSet, basename='cliente')
 router.register(r'aluguel', AlugarViewSet, basename='aluguel')
 router.register(r'perfis-clientes', PerfilClienteViewSet, basename='perfil-cliente')
 
+
 urlpatterns = [
     path('', RedirectView.as_view(url='api/', permanent=False)),
     path('api/', include(router.urls)),
