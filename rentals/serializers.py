@@ -7,9 +7,11 @@ class AluguelSerializer(serializers.ModelSerializer):
     funcionario_nome = serializers.CharField(source='funcionario.username', read_only=True)
     cliente_nome = serializers.CharField(source='perfil_cliente.user.username', read_only=True)
     funcionario = serializers.PrimaryKeyRelatedField(queryset= User.objects.filter(groups__name='Funcionários'))
+    status = serializers.CharField(read_only = True)
+    
     class Meta:
         model = Aluguel
-        fields = ['id', 'perfil_cliente', 'cliente_nome', 'carro', 'funcionario', 'funcionario_nome', 'data_inicio', 'data_fim','status', 'valor_total']
+        fields = ['id', 'perfil_cliente', 'cliente_nome', 'carro', 'funcionario', 'funcionario_nome', 'data_inicio', 'data_fim', 'valor_total', 'status']
 
     def validate(self, aluguel):
         data_inicio = aluguel["data_inicio"]
