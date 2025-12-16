@@ -8,6 +8,7 @@ class AluguelSerializer(serializers.ModelSerializer):
     cliente_nome = serializers.CharField(source='perfil_cliente.user.username', read_only=True)
     funcionario = serializers.PrimaryKeyRelatedField(queryset= User.objects.filter(groups__name='Funcionários'))
     status = serializers.CharField(read_only = True)
+
     
     class Meta:
         model = Aluguel
@@ -22,6 +23,20 @@ class AluguelSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({
                     "data_fim": "A data de fim não pode ser menor que a data de início."
                 })
+
+        if aluguel["carro"] and data_inicio and data_fim:
+            conflito = Aluguel.objects.filter(
+            carro= aluguel["carro"],
+            data_inicio__lte=data_fim,
+            data_fim__gte=data_inicio
+        )
+            if self.instance:
+                conflito = conflito.exclude(id=self.instance.id)
+
+            if conflito.exists():
+                raise serializers.ValidationError({
+                "carro": "Este carro já está alugado nesse período."
+            })
 
         return aluguel
 
