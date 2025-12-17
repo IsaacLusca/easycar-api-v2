@@ -93,7 +93,15 @@ source .venv/bin/activate   # Linux/Mac
 pip install -r requirements.txt
 ```
 
-### 4. Rodar o servidor
+### 4. Migrações do Banco de Dados
+
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+
+### 5. Rodar o servidor
 
 ```
 python manage.py runserver
