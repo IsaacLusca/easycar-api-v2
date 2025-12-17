@@ -1,33 +1,76 @@
-# EasyCar
 
-## Descrição
+# 📦 EasyCar
 
-Este projeto implementa um sistema para gerenciar aluguéis de carros,
-perfis de clientes e operações internas de funcionários. A aplicação será
-desenvolvida em Django, utilizando SQLite como banco de dados.
+## 📝 Projeto Integrador  
+**Curso:** Desenvolvimento de Software com Formação BackEnd - Python com Django  
+**Instituição de Ensino:** IFB (Instituto Federal de Brasília) - Campus Gama 
 
-## Tecnologias Utilizadas
+---
 
-* Python
-* Django
-* SQLite
+## 👥 Membros do Projeto
+- Isaac Lucas Souza Bezerra  
+- Júlia Belo Alves  
+- Maria Luiza Antunes de Oliveira  
+- Marina Márcia Costa de Souza  
+- Matheus Fernandes de Abreu  
 
-## Funcionalidades Principais
+---
 
-* Autenticação
-* Controle de acesso baseado em grupos (Funcionários e Clientes)
-* CRUD para clientes, carros e aluguéis
-* Consultas específicas por usuário
+## 📌 Descrição
 
-## Estrutura do Projeto
+Este projeto implementa um sistema para gerenciar **aluguéis de carros**, **perfis de clientes** e **operações internas de funcionários**.  
+A aplicação é desenvolvida em **Django**, utilizando **SQLite** como banco de dados.
 
-* usuários e perfis
-* carros
-* aluguéis
-* autenticação e permissões
-* documentação
+Além da implementação, o projeto inclui **documentação completa do modelo de dados**, com **MER (Modelo Entidade-Relacionamento)** e **DER (Diagrama Entidade-Relacionamento)** para facilitar a compreensão da estrutura do sistema.
 
-## Preparando ambiente
+---
+
+## 🛠 Tecnologias Utilizadas
+
+- **Python**
+- **Django**
+- **SQLite**
+
+---
+
+## ✅ Funcionalidades Principais
+
+- Autenticação de usuários
+- Controle de acesso baseado em grupos (**Funcionários** e **Clientes**)
+- CRUD para:
+  - Clientes
+  - Carros
+  - Aluguéis
+- Consultas específicas por usuário
+- Documentação com **MER** e **DER**
+
+---
+
+## 📂 Estrutura do Projeto
+
+- **usuários e perfis**
+- **carros**
+- **aluguéis**
+- **autenticação e permissões**
+- **documentação (incluindo MER e DER)**
+
+---
+
+## 🖼 Diagramas
+
+O projeto inclui:
+
+- **MER (Modelo Entidade-Relacionamento)**  
+  Representação conceitual das entidades, atributos e relacionamentos do sistema.
+  [📄 Clique aqui para abrir o MER (PDF)](MER%20EasyCar.pdf)
+
+- **DER (Diagrama Entidade-Relacionamento)**  
+  Diagrama visual com cardinalidades, chaves primárias e estrangeiras, seguindo boas práticas de modelagem.
+  ![DER](DER%20EasyCar.jpeg)
+
+---
+
+## ⚙️ Preparando ambiente
 
 ### 1. Clonar o repositório
 
