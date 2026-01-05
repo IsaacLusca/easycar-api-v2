@@ -30,5 +30,11 @@ class Aluguel(models.Model):
 
         super().save(*args, **kwargs)
 
+        # Atualiza status do carro
+        if self.status == 'ativo':
+            self.carro.marcar_como_alugado()
+        else:
+            self.carro.marcar_como_disponivel()
+
     def __str__(self):
         return f"Aluguel {self.id} - {self.carro.modelo}"
