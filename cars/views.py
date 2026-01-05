@@ -8,7 +8,7 @@ from users.permissions import IsClienteReadOnlyOrFuncionario  # ✅ Nova permiss
 class CarroViewSet(viewsets.ModelViewSet):
     queryset = Carro.objects.all()
     serializer_class = CarroSerializer
-    lookup_field = 'placa'
+    lookup_field = 'id'
     
     # ✅ Define a permissão global correta
     permission_classes = [IsClienteReadOnlyOrFuncionario]
