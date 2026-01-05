@@ -12,6 +12,9 @@ class AluguelSerializer(serializers.ModelSerializer):
     carro_modelo= serializers.CharField(source='carro.modelo', read_only=True)
     carro_placa= serializers.CharField(source='carro.placa', read_only=True)
     
+    carro = serializers.PrimaryKeyRelatedField(
+        queryset=Carro.objects.exclude(status='indisponivel')
+    )
     class Meta:
         model = Aluguel
         fields = ['id', 'perfil_cliente', 'cliente_nome', 'carro', 'carro_modelo', 'carro_placa','funcionario', 'funcionario_nome', 'data_inicio', 'data_fim', 'valor_total', 'status']

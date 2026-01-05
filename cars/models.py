@@ -7,7 +7,8 @@ class Carro(models.Model):
     valor_diaria = models.DecimalField(max_digits=10, decimal_places=2)
     STATUS_CHOICES = [
         ('disponivel', 'Disponível'),
-        ('alugado', 'Alugado'),    
+        ('alugado', 'Alugado'),
+        ('indisponivel', 'Indisponível'),    
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='disponivel')
 

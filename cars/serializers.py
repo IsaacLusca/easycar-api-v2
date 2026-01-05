@@ -5,7 +5,7 @@ class CarroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carro
         fields = ['id','modelo', 'placa', 'ano', 'valor_diaria', 'status']
-        read_only_fields = ['status']  # impede alterar direto
+        # read_only_fields = ['status']  # impede alterar direto
 
 class AlterarStatusSerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=Carro.STATUS_CHOICES)
