@@ -1,89 +1,105 @@
- 
-# 📦 EasyCar
+# 📦 EasyCar Fullstack v2
 
-## 📝 Projeto Integrador  
-**Curso:** Desenvolvimento de Software com Formação BackEnd - Python com Django  
-**Instituição de Ensino:** IFB (Instituto Federal de Brasília) - Campus Gama 
+## 📝 Projeto
+
+**Origem:** Projeto acadêmico em equipe (IFB – Campus Gama)  
+**Evolução:** Continuação e expansão **individual** a partir do projeto original
+
+Este repositório representa a **evolução do projeto EasyCar**, originalmente desenvolvido em equipe, com foco em:
+- melhoria das regras de negócio do backend
+- refinamento da arquitetura da API
+- integração com um frontend web
 
 ---
 
-## 👥 Membros do Projeto
-- Isaac Lucas Souza Bezerra  
-- Júlia Belo Alves  
-- Maria Luiza Antunes de Oliveira  
-- Marina Márcia Costa de Souza  
-- Matheus Fernandes de Abreu  
+## 👤 Autoria
+
+Projeto original desenvolvido em equipe.  
+**Evoluções, novas funcionalidades e integrações desenvolvidas por:**  
+- Isaac Lucas Souza Bezerra
 
 ---
 
 ## 📌 Descrição
 
-Este projeto implementa um sistema para gerenciar **aluguéis de carros**, **perfis de clientes** e **operações internas de funcionários**.  
-A aplicação é desenvolvida em **Django**, utilizando **SQLite** como banco de dados.
+O **EasyCar** é um sistema para gerenciamento de **aluguéis de carros**, **clientes** e **operações administrativas**.
 
-Além da implementação, o projeto inclui **documentação completa do modelo de dados**, com **MER (Modelo Entidade-Relacionamento)** e **DER (Diagrama Entidade-Relacionamento)** para facilitar a compreensão da estrutura do sistema.
+Nesta versão evoluída:
+- o backend em **Django REST Framework** foi aprimorado
+- novas regras de negócio foram implementadas
+- o projeto passou a ser **fullstack**, com integração frontend + API
+- foco em código mais limpo, organização e escalabilidade
 
 ---
 
 ## 🛠 Tecnologias Utilizadas
 
+### Backend
 - **Python**
 - **Django**
-- **SQLite**
+- **Django REST Framework**
+- **SQLite** (ambiente de desenvolvimento)
+
+### Frontend
+- (em desenvolvimento / a definir conforme evolução)
 
 ---
 
-## ✅ Funcionalidades Principais
+## ✅ Funcionalidades
 
-- Autenticação de usuários
-- Controle de acesso baseado em grupos (**Funcionários** e **Clientes**)
-- CRUD para:
+- Autenticação e autorização de usuários
+- Controle de acesso por perfil (clientes e funcionários)
+- CRUD completo de:
   - Clientes
   - Carros
   - Aluguéis
-- Consultas específicas por usuário
-- Documentação com **MER** e **DER**
+- Regras de negócio aprimoradas para aluguel
+- Endpoints REST organizados e documentados
+- Integração com frontend
+- Documentação automática da API
 
 ---
 
 ## 📂 Estrutura do Projeto
 
-- **usuários e perfis**
-- **carros**
-- **aluguéis**
-- **autenticação e permissões**
-- **documentação (incluindo MER e DER)**
+- usuários e perfis
+- carros
+- aluguéis
+- autenticação e permissões
+- API REST
+- integração frontend
+- documentação
 
 ---
 
 ## 🖼 Diagramas
 
-O projeto inclui:
+Diagramas herdados do projeto original e utilizados como base conceitual:
 
 - **MER (Modelo Entidade-Relacionamento)**  
-  Representação conceitual das entidades, atributos e relacionamentos do sistema.
-  [📄 Clique aqui para abrir o MER (PDF)](MER%20EasyCar.pdf)
+  Representação conceitual das entidades e relacionamentos.  
+  [📄 MER (PDF)](MER%20EasyCar.pdf)
 
 - **DER (Diagrama Entidade-Relacionamento)**  
-  Diagrama visual com cardinalidades, chaves primárias e estrangeiras, seguindo boas práticas de modelagem.
+  Diagrama lógico com cardinalidades e chaves.  
   ![DER](DER%20EasyCar.jpeg)
 
 ---
 
-## ⚙️ Preparando ambiente
+## ⚙️ Preparando o Ambiente
 
 ### 1. Clonar o repositório
 
 ```
-git clone https://github.com/IsaacLusca/projeto-integrador-easycar.git
-cd projeto-integrador-easycar
+git clone https://github.com/seu-usuario/easycar-fullstack.git  
+cd easycar-fullstack
 ```
 
 ### 2. Criar e ativar ambiente virtual
 
 ```
-python -m venv .venv
-source .venv/bin/activate   # Linux/Mac
+python -m venv .venv  
+source .venv/bin/activate   # Linux/Mac  
 .venv\Scripts\activate      # Windows
 ```
 
@@ -93,13 +109,12 @@ source .venv/bin/activate   # Linux/Mac
 pip install -r requirements.txt
 ```
 
-### 4. Migrações do Banco de Dados
+### 4. Aplicar migrações
 
 ```
-python manage.py makemigrations
+python manage.py makemigrations  
 python manage.py migrate
 ```
-
 
 ### 5. Rodar o servidor
 
@@ -111,11 +126,10 @@ python manage.py runserver
 
 ## 📚 Documentação da API
 
-A API REST do projeto é documentada utilizando **DRF Spectacular**.
+A API REST é documentada com **DRF Spectacular**.
 
-Após iniciar o servidor, a documentação pode ser acessada em:
+Após iniciar o servidor, acesse:
 
-- `http://localhost:8000/api/docs/`
+- ` http://localhost:8000/api/docs/ `
 
-Essa interface permite visualizar todos os endpoints disponíveis, métodos HTTP, parâmetros e respostas.
-
+A documentação apresenta todos os endpoints, métodos HTTP, parâmetros e respostas disponíveis.
