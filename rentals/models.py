@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from users.models import PerfilCliente
 from cars.models import Carro
+from datetime import date
 
 class Aluguel(models.Model):
     # related_name serve para facilitar o acesso reverso
@@ -13,6 +14,10 @@ class Aluguel(models.Model):
     data_fim = models.DateField()
     valor_total = models.DecimalField(max_digits=10, decimal_places=2)
 
+    # data e valor final
+    data_devolucao = models.DateField(null=True, blank=True)
+    valor_final = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
     STATUS_CHOICES = [
         ('ativo', 'Ativo'),
         ('finalizado', 'Finalizado'),
@@ -21,12 +26,21 @@ class Aluguel(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ativo')
 
     def save(self, *args, **kwargs):
-        if self.data_inicio and self.data_fim and self.carro:
+        # Calcula valor_total se não estiver definido
+        if self.data_inicio and self.data_fim and self.carro and not self.valor_total:
             dias = (self.data_fim - self.data_inicio).days
             if dias <= 0:
                 dias = 1
             
             self.valor_total = dias * self.carro.valor_diaria
+
+        # se tiver devolucao real, calcula valor final
+        if self.data_devolucao and self.carro:
+            dias_reais = (self.data_devolucao - self.data_inicio).days
+            if dias_reais <= 0:
+                dias_reais = 1       
+
+            self.valor_final = dias_reais * self.carro.valor_diaria
 
         super().save(*args, **kwargs)
 
