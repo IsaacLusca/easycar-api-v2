@@ -43,29 +43,6 @@ class AluguelSerializer(serializers.ModelSerializer):
             dias = (fim - obj.data_inicio).days
             return dias if dias > 0 else 0
         return 0
-
-    # Calcula valor parcial e valor da multa que será cobrada se houver atraso
-    def get_valor_multa_e_parcial(self, obj):   
-        hoje = date.today()
-        multa = Decimal('0.00') 
-        valor_parcial = Decimal('0.00')
-
-        # Garante que temos as datas necessárias
-        if obj.data_inicio and obj.data_fim and obj.carro:
-            if hoje > obj.data_fim:
-                dias_atraso = (hoje - obj.data_fim).days
-                multa = dias_atraso * obj.carro.valor_diaria * Decimal('1.2')
-
-            # calcula valor parcial até hoje ou data_fim
-            data_limite_contrato = min(hoje, obj.data_fim)
-            dias_uso = (data_limite_contrato - obj.data_inicio).days
-            
-            if dias_uso <= 0:
-                dias_uso = 1
-                
-            valor_parcial = dias_uso * obj.carro.valor_diaria
-
-        return multa, valor_parcial
     
     # Calcula valor parcial atual para exibir
     def get_valor_parcial_atual(self, obj):
@@ -76,7 +53,7 @@ class AluguelSerializer(serializers.ModelSerializer):
         if obj.valor_final is not None:
             return obj.valor_final
              
-        multa, parcial = self.get_valor_multa_e_parcial(obj)
+        multa, parcial = obj.calcular_pendencias()
         return multa + parcial
 
     def validate(self, data):
@@ -127,8 +104,6 @@ class AluguelSerializer(serializers.ModelSerializer):
                     validated_data.pop(campo)
                     
             instance.data_devolucao = date.today()
-            multa, valor_parcial = self.get_valor_multa_e_parcial(instance)
-            instance.valor_final = valor_parcial + multa
 
         elif novo_status == 'cancelado':
             instance.valor_final = Decimal('0.00')
