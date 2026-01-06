@@ -35,7 +35,7 @@ class Aluguel(models.Model):
             self.valor_total = dias * self.carro.valor_diaria
 
         # se tiver devolucao real, calcula valor final
-        if self.data_devolucao and self.carro:
+        if self.data_devolucao and self.carro and self.valor_final is None:
             dias_reais = (self.data_devolucao - self.data_inicio).days
             if dias_reais <= 0:
                 dias_reais = 1       
