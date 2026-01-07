@@ -1,4 +1,5 @@
 from rest_framework.permissions import BasePermission
+from rest_framework import permissions
 
 class IsFuncionarioOuSuperuser(BasePermission):
 
@@ -10,7 +11,6 @@ class IsFuncionarioOuSuperuser(BasePermission):
         return user.is_authenticated and (
             user.is_superuser or user.groups.filter(name='Funcionários').exists()
         )
-from rest_framework import permissions
 
 class IsClienteReadOnlyOrFuncionario(permissions.BasePermission):
    
@@ -24,4 +24,6 @@ class IsClienteReadOnlyOrFuncionario(permissions.BasePermission):
             return True
 
         # Para métodos de escrita (POST, PUT, PATCH, DELETE), só permite funcionários ou superusers
-        return request.user.is_staff or request.user.is_superuser
+        return (request.user.is_staff or 
+                request.user.is_superuser or 
+                request.user.groups.filter(name='Funcionários').exists())
