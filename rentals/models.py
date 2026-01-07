@@ -4,6 +4,7 @@ from users.models import PerfilCliente
 from cars.models import Carro
 from datetime import date
 from decimal import Decimal
+from django.core.exceptions import ValidationError
 
 class Aluguel(models.Model):
     # related_name serve para facilitar o acesso reverso
@@ -25,6 +26,30 @@ class Aluguel(models.Model):
         ('cancelado', 'Cancelado'),
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ativo')
+
+    # def clean para validação
+    def clean(self):
+        # verifica se data_fim é maior que data_inicio
+        if self.data_inicio and self.data_fim:
+            if self.data_fim < self.data_inicio:
+                raise ValidationError({'data_fim': "A data de fim não pode ser menor que a data de início."})
+
+        # verifica conflito de aluguel para o mesmo carro
+        if self.carro_id and self.data_inicio and self.data_fim:
+            conflito = Aluguel.objects.filter(
+                carro_id=self.carro_id,
+                data_inicio__lte=self.data_fim,
+                data_fim__gte=self.data_inicio
+            ).exclude(status__in=['finalizado', 'cancelado'])
+            
+            # Se for edição, exclui o próprio ID da checagem
+            if self.pk:
+                conflito = conflito.exclude(pk=self.pk)
+
+            if conflito.exists():
+                raise ValidationError({'carro': "Este carro já está alugado nesse período."})
+        
+        super().clean()
 
     # Calcula valor parcial e valor da multa de forma centralizada
     def calcular_pendencias(self):
@@ -65,6 +90,8 @@ class Aluguel(models.Model):
         if self.data_devolucao and self.carro and self.valor_final is None:
             multa, parcial = self.calcular_pendencias()
             self.valor_final = parcial + multa
+
+        self.full_clean()
 
         super().save(*args, **kwargs)
 

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from cars.models import Carro
 from datetime import date
 from decimal import Decimal
+from django.core.exceptions import ValidationError as DjangoValidationError # Importe isso
 
 class AluguelSerializer(serializers.ModelSerializer):
     valor_total = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
@@ -56,37 +57,13 @@ class AluguelSerializer(serializers.ModelSerializer):
         multa, parcial = obj.calcular_pendencias()
         return multa + parcial
 
-    def validate(self, data):
-            # logica para validação de datas e conflito de aluguel
-            if self.instance:
-                data_inicio = data.get("data_inicio", self.instance.data_inicio)
-                data_fim = data.get("data_fim", self.instance.data_fim)
-                carro = data.get("carro", self.instance.carro)
-            else:
-                data_inicio = data.get("data_inicio")
-                data_fim = data.get("data_fim")
-                carro = data.get("carro")
-
-            # valida datas
-            if data_inicio and data_fim:
-                if data_fim < data_inicio:
-                    raise serializers.ValidationError({"data_fim": "A data de fim não pode ser menor que a data de início."})
-
-            # valida conflito de datas para o mesmo carro
-            if carro and data_inicio and data_fim:
-                conflito = Aluguel.objects.filter(
-                    carro=carro,
-                    data_inicio__lte=data_fim,
-                    data_fim__gte=data_inicio
-                ).exclude(status__in=['finalizado', 'cancelado']) # ignora aluguéis que não estão ativos
-                
-                if self.instance:
-                    conflito = conflito.exclude(id=self.instance.id)
-
-                if conflito.exists():
-                    raise serializers.ValidationError({"carro": "Este carro já está alugado nesse período."})
-
-            return data
+    # metodo para tratar erros de validação do modelo
+    def create(self, validated_data):
+        try:
+            return super().create(validated_data)
+        except DjangoValidationError as e:
+            # Converte erro do Django para erro da API
+            raise serializers.ValidationError(e.message_dict)
 
     def update(self, instance, validated_data):
         # impedir alteração de aluguel finalizado ou cancelado
@@ -109,8 +86,11 @@ class AluguelSerializer(serializers.ModelSerializer):
             instance.valor_final = Decimal('0.00')
             instance.data_devolucao = date.today()
         
-        # Realiza a atualização padrão do Django REST Framework
-        instance = super().update(instance, validated_data)
+        # Realiza a atualização padrão do Django REST Framework com tratamento de erro
+        try:
+            instance = super().update(instance, validated_data)
+        except DjangoValidationError as e:
+            raise serializers.ValidationError(e.message_dict)
 
         # se o status foi alterado para finalizado, marca o carro como disponível
         if instance.status in ['finalizado', 'cancelado']:
