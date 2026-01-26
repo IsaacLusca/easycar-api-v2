@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 from .models import PerfilCliente
 
 #------------------------------------------------------------------------------
@@ -32,11 +34,22 @@ class UserSerializer(serializers.ModelSerializer):
         grupos = obj.groups.all()
         return grupos[0].name if grupos else None
 
+    def validate_senha(self, value):
+        # valida a senha usando os validators do Django e um fallback de comprimento
+        if value is None:
+            raise serializers.ValidationError("Senha não pode ser vazia.")
+        try:
+            validate_password(value)
+        except DjangoValidationError as e:
+            raise serializers.ValidationError(e.messages)
+        if len(value) < 8:
+            raise serializers.ValidationError("A senha deve ter pelo menos 8 caracteres.")
+        return value
+
     def create(self, validated_data):
 
         first_name = validated_data.pop('first_name') # pega e remove o primeiro nome do dicionario
         senha = validated_data.pop('senha') # pega e remove senha do dicionario
-
 
         # cria usuarios
         cliente = User.objects.create_user(
@@ -57,10 +70,9 @@ class UserSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
      # atualiza a senha somente se foi fornecida
-        nova_senha = validated_data.get('senha', None)
+        nova_senha = validated_data.pop('senha', None)
         if nova_senha:
             instance.set_password(nova_senha)
-            
         # chama o update da api para atualizar os outros campos normalmente
         return super().update(instance, validated_data)       
       

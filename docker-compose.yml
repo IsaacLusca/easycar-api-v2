@@ -1,8 +1,48 @@
 services:
-  web:
-    build: .
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=easycar_db
+      - POSTGRES_USER=easycar_user
+      - POSTGRES_PASSWORD=easycar_password
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+  backend: 
+    build: ./backend 
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/app
+      - ./backend:/app 
     ports:
       - "8000:8000"
+    environment:
+      - DB_NAME=easycar_db
+      - DB_USER=easycar_user
+      - DB_PASSWORD=easycar_password
+      - DB_HOST=db
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true 
+
+volumes:
+  postgres_data:
