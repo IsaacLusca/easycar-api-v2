@@ -11,3 +11,11 @@ media/
 .vscode/
 .idea/
 teste.py
+
+**/node_modules
+**/__pycache__
+.env
+.venv
+backend/db.sqlite3
+frontend/dist
+postgres_data
