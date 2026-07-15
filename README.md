@@ -1,135 +1,71 @@
-# 📦 EasyCar Fullstack v2
+# EasyCar Fullstack v2
 
-## 📝 Projeto
+Sistema fullstack para gerenciamento de aluguéis de carros, clientes e operações administrativas.
 
-**Origem:** Projeto acadêmico em equipe (IFB – Campus Gama)  
-**Evolução:** Continuação e expansão **individual** a partir do projeto original
-
-Este repositório representa a **evolução do projeto EasyCar**, originalmente desenvolvido em equipe, com foco em:
-- melhoria das regras de negócio do backend
-- refinamento da arquitetura da API
-- integração com um frontend web
-
----
-
-## 👤 Autoria
-
-Projeto original desenvolvido em equipe.  
-**Evoluções, novas funcionalidades e integrações desenvolvidas por:**  
-- Isaac Lucas Souza Bezerra
-
----
-
-## 📌 Descrição
-
-O **EasyCar** é um sistema para gerenciamento de **aluguéis de carros**, **clientes** e **operações administrativas**.
-
-Nesta versão evoluída:
-- o backend em **Django REST Framework** foi aprimorado
-- novas regras de negócio foram implementadas
-- o projeto passou a ser **fullstack**, com integração frontend + API
-- foco em código mais limpo, organização e escalabilidade
-
----
-
-## 🛠 Tecnologias Utilizadas
+## Tecnologias
 
 ### Backend
-- **Python**
-- **Django**
-- **Django REST Framework**
-- **SQLite** (ambiente de desenvolvimento)
+- Python / Django 6 / Django REST Framework
+- PostgreSQL (produção) / SQLite (desenvolvimento local)
+- DRF Spectacular (documentação automática da API)
 
 ### Frontend
-- (em desenvolvimento / a definir conforme evolução)
+- React 19 + Vite
+- Docker
 
----
-
-## ✅ Funcionalidades
-
-- Autenticação e autorização de usuários
-- Controle de acesso por perfil (clientes e funcionários)
-- CRUD completo de:
-  - Clientes
-  - Carros
-  - Aluguéis
-- Regras de negócio aprimoradas para aluguel
-- Endpoints REST organizados e documentados
-- Integração com frontend
-- Documentação automática da API
-
----
-
-## 📂 Estrutura do Projeto
-
-- usuários e perfis
-- carros
-- aluguéis
-- autenticação e permissões
-- API REST
-- integração frontend
-- documentação
-
----
-
-## 🖼 Diagramas
-
-Diagramas herdados do projeto original e utilizados como base conceitual:
-
-- **MER (Modelo Entidade-Relacionamento)**  
-  Representação conceitual das entidades e relacionamentos.  
-  [📄 MER (PDF)](MER%20EasyCar.pdf)
-
-- **DER (Diagrama Entidade-Relacionamento)**  
-  Diagrama lógico com cardinalidades e chaves.  
-  ![DER](DER%20EasyCar.jpeg)
-
----
-
-## ⚙️ Preparando o Ambiente
-
-### 1. Clonar o repositório
+## Estrutura
 
 ```
-git clone https://github.com/seu-usuario/easycar-fullstack.git  
-cd easycar-fullstack
+easycar-api-v2/
+├── backend/       # API Django REST
+│   ├── cars/      # App de carros
+│   ├── rentals/   # App de aluguéis
+│   ├── users/     # App de usuários
+│   └── easycar/   # Configurações do Django
+├── frontend/      # App React + Vite
+└── docker-compose.yml
 ```
 
-### 2. Criar e ativar ambiente virtual
+## Rodar com Docker (recomendado)
 
-```
-python -m venv .venv  
-source .venv/bin/activate   # Linux/Mac  
-.venv\Scripts\activate      # Windows
+```bash
+docker-compose up --build
 ```
 
-### 3. Instalar dependências
+- Backend: http://localhost:8000
+- Frontend: http://localhost:5173
+- Documentação da API: http://localhost:8000/api/docs/
+- PgAdmin: http://localhost:5050 (admin@admin.com / admin)
 
-```
+## Rodar sem Docker
+
+### Backend
+
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate   # Windows
 pip install -r requirements.txt
-```
-
-### 4. Aplicar migrações
-
-```
-python manage.py makemigrations  
 python manage.py migrate
-```
-
-### 5. Rodar o servidor
-
-```
 python manage.py runserver
 ```
 
----
+### Frontend
 
-## 📚 Documentação da API
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-A API REST é documentada com **DRF Spectacular**.
+## Funcionalidades
 
-Após iniciar o servidor, acesse:
+- Autenticação e autorização por perfil (clientes e funcionários)
+- CRUD de clientes, carros e aluguéis
+- Regras de negócio para aluguel
+- Endpoints REST documentados
+- Integração frontend + API
 
-- ` http://localhost:8000/api/docs/ `
+## Autor
 
-A documentação apresenta todos os endpoints, métodos HTTP, parâmetros e respostas disponíveis.
+Isaac Lucas Souza Bezerra
