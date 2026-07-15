@@ -27,6 +27,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=easycar_db
       - DB_USER=easycar_user
       - DB_PASSWORD=easycar_password
