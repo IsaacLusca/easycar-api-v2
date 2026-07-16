@@ -12,15 +12,15 @@ class Command(BaseCommand):
         self.stdout.write("Criando dados de exemplo...")
 
         # Cria grupos
-        Group.objects.get_or_create(name="clientes")
-        Group.objects.get_or_create(name="funcionarios")
+        Group.objects.get_or_create(name="Clientes")
+        Group.objects.get_or_create(name="Funcionários")
 
         # Cria funcionario (staff)
         if not User.objects.filter(username="admin").exists():
             admin = User.objects.create_superuser("admin", "admin@email.com", "123")
             admin.first_name = "Admin"
             admin.save()
-            grupo_func = Group.objects.get(name="funcionarios")
+            grupo_func = Group.objects.get(name="Funcionários")
             admin.groups.add(grupo_func)
             self.stdout.write(f"  Admin: admin / 123")
 
@@ -29,7 +29,7 @@ class Command(BaseCommand):
             user = User.objects.create_user("joao", "joao@email.com", "123")
             user.first_name = "Joao"
             user.save()
-            grupo_cli = Group.objects.get(name="clientes")
+            grupo_cli = Group.objects.get(name="Clientes")
             user.groups.add(grupo_cli)
             PerfilCliente.objects.get_or_create(
                 user=user,
@@ -45,7 +45,7 @@ class Command(BaseCommand):
             user = User.objects.create_user("maria", "maria@email.com", "123")
             user.first_name = "Maria"
             user.save()
-            grupo_cli = Group.objects.get(name="clientes")
+            grupo_cli = Group.objects.get(name="Clientes")
             user.groups.add(grupo_cli)
             PerfilCliente.objects.get_or_create(
                 user=user,
