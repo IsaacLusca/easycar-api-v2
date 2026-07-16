@@ -3,7 +3,7 @@ services:
     name: easycar-api
     runtime: python
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: gunicorn easycar.wsgi:application --chdir backend
+    startCommand: bash render_start.sh
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: easycar.settings
