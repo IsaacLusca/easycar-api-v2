@@ -66,6 +66,21 @@ npm run dev
 - Endpoints REST documentados
 - Integração frontend + API
 
+## Deploy
+
+- **Frontend:** https://easycar-api-v2.vercel.app
+- **Backend:** https://easycar-api.onrender.com
+- **Documentação da API:** https://easycar-api.onrender.com/api/docs/
+- **Admin:** https://easycar-api.onrender.com/admin/
+
+### Usuários de teste
+
+| Usuário | Senha | Perfil |
+|---------|-------|--------|
+| admin | 123 | Funcionário |
+| joao | 123 | Cliente |
+| maria | 123 | Cliente |
+
 ## Autor
 
 Isaac Lucas Souza Bezerra
