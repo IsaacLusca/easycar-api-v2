@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getAluguel, createAluguel, updateAluguel, getCarrosDisponiveis, getPerfis, getUsers } from '../services/api'
+import { getAluguel, createAluguel, updateAluguel, getCarros, getCarrosDisponiveis, getPerfis, getUsers } from '../services/api'
 import Layout from '../components/Layout'
 
 export default function AluguelForm() {
@@ -18,8 +18,9 @@ export default function AluguelForm() {
   useEffect(() => {
     const loadData = async () => {
       try {
+        const carrosPromise = isEdit ? getCarros() : getCarrosDisponiveis()
         const [carrosData, perfisData, usersData] = await Promise.all([
-          getCarrosDisponiveis(),
+          carrosPromise,
           getPerfis(),
           getUsers(),
         ])
