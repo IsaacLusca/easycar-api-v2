@@ -62,7 +62,9 @@ export default function Layout({ children }) {
       </aside>
 
       <main className="layout-main">
-        {children}
+        <div className="layout-content">
+          {children}
+        </div>
       </main>
     </div>
   )

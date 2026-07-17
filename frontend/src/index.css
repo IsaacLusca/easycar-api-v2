@@ -569,8 +569,14 @@ input { font-family: inherit; }
 .layout-main {
   flex: 1;
   margin-left: 240px;
-  padding: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.layout-content {
+  width: 100%;
   max-width: 1200px;
+  padding: 32px;
 }
 
 /* ==============================
