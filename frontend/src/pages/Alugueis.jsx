@@ -15,8 +15,6 @@ export default function Alugueis() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  const [error, setError] = useState('')
-
   const fetchAlugueis = async () => {
     try {
       const data = await getAlugueis()
@@ -24,8 +22,10 @@ export default function Alugueis() {
     } catch (err) {
       if (err.response?.status === 403) {
         setError('Acesso restrito a funcionários.')
-      } else {
+      } else if (err.response?.status === 401) {
         navigate('/login')
+      } else {
+        setError('Erro ao carregar aluguéis.')
       }
     } finally {
       setLoading(false)
@@ -55,7 +55,9 @@ export default function Alugueis() {
         </button>
       </div>
 
-      {loading ? (
+      {error ? (
+        <div className="error-msg" style={{ marginBottom: 0 }}>{error}</div>
+      ) : loading ? (
         <div className="loading">Carregando...</div>
       ) : (
         <div className="table-container">

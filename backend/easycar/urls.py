@@ -2,6 +2,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.contrib.auth.models import User
 
 from users.views import PerfilClienteViewSet, MeusAlugueisView
 from users.views import UserViewSet
@@ -9,6 +13,20 @@ from cars.views import CarroViewSet
 from django.views.generic import RedirectView
 from rentals.views import AlugarViewSet
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    user = request.user
+    return Response({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'is_staff': user.is_staff,
+        'is_superuser': user.is_superuser,
+        'groups': list(user.groups.values_list('name', flat=True)),
+    })
 
 router = routers.DefaultRouter()
 router.register(r'carros', CarroViewSet, basename='carro')
@@ -23,6 +41,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/auth/token/', obtain_auth_token, name='api_token_auth'),
+    path('api/auth/user/', current_user, name='current-user'),
     path('api/me/alugueis/', MeusAlugueisView.as_view({'get': 'list'}), name='meus-alugueis'),
 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

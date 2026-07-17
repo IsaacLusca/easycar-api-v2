@@ -18,6 +18,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
+      localStorage.removeItem('user')
       window.location.href = '/login'
     }
     return Promise.reject(error)
@@ -142,6 +143,11 @@ export const deletePerfil = async (id) => {
 
 export const getAlugueisDoPerfil = async (perfilId) => {
   const response = await api.get(`/perfis-clientes/${perfilId}/alugueis/`)
+  return response.data
+}
+
+export const getCurrentUser = async () => {
+  const response = await api.get('/auth/user/')
   return response.data
 }
 

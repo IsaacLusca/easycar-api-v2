@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../services/api'
+import { login, getCurrentUser } from '../services/api'
 
 export default function Login() {
   const [username, setUsername] = useState('')
@@ -16,6 +16,8 @@ export default function Login() {
     try {
       const token = await login(username, password)
       localStorage.setItem('token', token)
+      const user = await getCurrentUser()
+      localStorage.setItem('user', JSON.stringify(user))
       navigate('/dashboard')
     } catch {
       setError('Usuário ou senha inválidos')
