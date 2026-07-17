@@ -26,7 +26,7 @@ api.interceptors.response.use(
 
 export const login = async (username, password) => {
   const response = await api.post('/auth/token/', { username, password })
-  return response.data
+  return response.data.token
 }
 
 export const getCarros = async () => {
