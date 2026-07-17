@@ -7,14 +7,14 @@ export default function UsuarioForm() {
   const { id } = useParams()
   const isEdit = !!id
   const navigate = useNavigate()
-  const [form, setForm] = useState({ username: '', email: '', senha: '', is_staff: false, is_active: true })
+  const [form, setForm] = useState({ username: '', email: '', primeiro_nome: '', senha: '', is_staff: false, is_active: true })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     if (isEdit) {
       getUser(id).then((data) => {
-        setForm({ username: data.username, email: data.email || '', senha: '', is_staff: data.is_staff, is_active: data.is_active })
+        setForm({ username: data.username, email: data.email || '', primeiro_nome: data.primeiro_nome || '', senha: '', is_staff: data.is_staff, is_active: data.is_active })
       }).catch(() => navigate('/usuarios'))
     }
   }, [id])
@@ -58,6 +58,10 @@ export default function UsuarioForm() {
             <div className="input-group">
               <label>Usuário</label>
               <input name="username" value={form.username} onChange={handleChange} required placeholder="Nome de usuário" />
+            </div>
+            <div className="input-group">
+              <label>Nome</label>
+              <input name="primeiro_nome" value={form.primeiro_nome} onChange={handleChange} required placeholder="Nome completo" />
             </div>
             <div className="input-group">
               <label>Email</label>

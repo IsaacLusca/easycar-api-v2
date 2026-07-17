@@ -12,14 +12,21 @@ const statusConfig = {
 export default function Alugueis() {
   const [alugueis, setAlugueis] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const navigate = useNavigate()
+
+  const [error, setError] = useState('')
 
   const fetchAlugueis = async () => {
     try {
       const data = await getAlugueis()
       setAlugueis(data)
-    } catch {
-      navigate('/login')
+    } catch (err) {
+      if (err.response?.status === 403) {
+        setError('Acesso restrito a funcionários.')
+      } else {
+        navigate('/login')
+      }
     } finally {
       setLoading(false)
     }
