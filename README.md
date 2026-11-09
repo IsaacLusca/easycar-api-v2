@@ -6,7 +6,7 @@ Sistema fullstack para gerenciamento de aluguéis de carros, clientes e operaç�
 
 ### Backend
 - Python / Django 6 / Django REST Framework
-- PostgreSQL (produção) / SQLite (desenvolvimento local)
+- PostgreSQL (opcional) / SQLite (demo no Render e desenvolvimento local)
 - DRF Spectacular (documentação automática da API)
 
 ### Frontend
@@ -72,6 +72,9 @@ npm run dev
 - **Backend:** https://easycar-api.onrender.com
 - **Documentação da API:** https://easycar-api.onrender.com/api/docs/
 - **Admin:** https://easycar-api.onrender.com/admin/
+- **Health check:** https://easycar-api.onrender.com/api/health/
+
+> A demo no Render usa SQLite em `/tmp` para não depender de um banco externo. Os dados de exemplo são recriados a cada reinício. Para usar PostgreSQL, configure as variáveis `DB_*` e defina `DEMO_SQLITE=False`.
 
 ### Usuários de teste
 

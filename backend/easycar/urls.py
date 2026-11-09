@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.db import connection
+from django.http import JsonResponse
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
@@ -28,6 +30,15 @@ def current_user(request):
         'groups': list(user.groups.values_list('name', flat=True)),
     })
 
+
+def health(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT 1')
+        return JsonResponse({'status': 'ok', 'database': 'ok'})
+    except Exception:
+        return JsonResponse({'status': 'error', 'database': 'unavailable'}, status=503)
+
 router = routers.DefaultRouter()
 router.register(r'carros', CarroViewSet, basename='carro')
 router.register(r'users', UserViewSet, basename='user')
@@ -37,6 +48,7 @@ router.register(r'alugar', AlugarViewSet, basename='aluguel')
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/', permanent=False)),
+    path('api/health/', health, name='health'),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
